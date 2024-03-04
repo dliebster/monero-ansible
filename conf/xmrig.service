@@ -1,0 +1,15 @@
+# /etc/systemd/system/xmrig.service
+[Unit]
+Description = xmrig
+After       = network.target
+
+[Service]
+Type       = simple
+ExecStart  = /usr/local/bin/xmrig -o 127.0.0.1:3333
+User       = monero
+Group      = monero
+Restart    = always
+RestartSec = 20
+
+[Install]
+WantedBy = multi-user.target
