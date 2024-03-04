@@ -8,22 +8,30 @@
 
   tasks:
     - name: Gather CPU usage
-      ansible.builtin.command: top -bn1 | grep 'Cpu(s)' | awk '{print $2}'
+      ansible.builtin.shell:
+        cmd: set -o pipefail && top -bn1 | grep 'Cpu(s)' | awk '{print $2}'
+        executable: /bin/bash
       register: cpu_usage
       changed_when: cpu_usage.rc != 0
 
     - name: Gather RAM Usage
-      ansible.builtin.command: top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
+      ansible.builtin.shell:
+        cmd: set -o pipefail && top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
+        executable: /bin/bash
       register: ram_usage
       changed_when: ram_usage.rc != 0
 
     - name: Gather Disk Space
-      ansible.builtin.comand: "df -h --output=pcent / | awk 'NR==2 {print $1}'"
+      ansible.builtin.shell:
+        cmd: set -o pipefail && df -h --output=pcent / | awk 'NR==2 {print $1}'
+        executable: /bin/bash
       register: disk_space
-      changed_when: disk_usage.rc != 0
+      changed_when: disk_space.rc != 0
 
     - name: Gather P2P logs
-      ansible.builtin.command: grep P2P /var/log/monero/monerod.log |tail -5
+      ansible.builtin.shell:
+        cmd: set -o pipefail && grep P2P /var/log/monero/monerod.log |tail -5
+        executable: /bin/bash
       register: monero_logs
       changed_when: monero_logs.rc != 0
 
