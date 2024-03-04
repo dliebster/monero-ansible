@@ -1,12 +1,29 @@
 # monero-ansible
-Ansiblized monero admin for small clusters
 
-# Install monero to nodes:
-ansible-playbook -i <inventory.yaml> add_monero.yaml
+Ansiblized monero + p2pool admin for small clusters.
 
-# Install p2pool and xmrig:
-ansible-playbook -i <inventory.yaml> add_pool.sh --> WIP converting to playbook...
+## Install monero to nodes
 
+```bash
+ansible-playbook -i hosts.yaml add_monero.yaml
+```
 
-# Monitor monerod progess:
-ansible-playbook -i <inventory.yaml> uptime.yaml
+## Install p2pool
+
+```bash
+ansible-playbook -i hosts.yaml add_p2p.yaml
+```
+
+## Install xmrig -> work in progress
+
+```bash
+ansible-playbook -i hosts.yaml add_xmrig.yaml
+```
+
+## Monitor monerod progess
+
+```bash
+ansible-playbook -i hosts.yaml monitor/uptime-monerod.yaml
+ansible-playbook -i hosts.yaml monitor/uptime-p2p.yaml
+ansible-playbook -i hosts.yaml monitor/uptime-xmrig.yaml
+```

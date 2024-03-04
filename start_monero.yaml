@@ -1,11 +1,13 @@
 ---
-- name: Gather CPU RAM and Disk Space Usage
+- name: Enable monerod systemd service
   hosts: all
   become: true
   remote_user: ubuntu
-  gather_facts: yes
-  become_method: ansible.builtin.sudo
+  gather_facts: true
 
   tasks:
-    - name: Gather CPU usage
-      ansible.builtin.shell: systemctl enable monero --now
+    - name: Enable monerod systemd
+      ansible.builtin.systemd:
+        name: monerod
+        enabled: true
+        masked: false

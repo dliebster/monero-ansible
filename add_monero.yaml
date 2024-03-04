@@ -28,6 +28,6 @@
         state: present
 
     - name: Run make_monero script
-      ansible.builtin.script: ./scripts/make_monero.sh
+      ansible.builtin.script: ./scripts/add_monero.sh
       args:
         creates: /var/log/monero

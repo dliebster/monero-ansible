@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 wget https://github.com/SChernykh/p2pool/releases/download/v3.10/p2pool-v3.10-linux-x64.tar.gz
 gzip -df p2pool-v3.10-linux-x64.tar.gz 
 tar -xvf p2pool-v3.10-linux-x64.tar
