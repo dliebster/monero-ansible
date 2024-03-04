@@ -8,3 +8,4 @@
   tasks:
     - name: Run make_monero script
       ansible.builtin.script: scripts/add_p2pool.sh
+      creates: /usr/local/bin/p2pool

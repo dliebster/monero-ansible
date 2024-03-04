@@ -37,7 +37,7 @@
 
     - name: Usage Stats
       ansible.builtin.debug:
-        msg: 
+        msg:
           - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
           - "CPU Usage: {{ cpu_usage.stdout }}%"
           - "RAM Usage: {{ ram_usage.stdout }}%"

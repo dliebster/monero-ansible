@@ -1,0 +1,12 @@
+---
+- name: Transfer and install xmrig.
+  hosts: monero
+  become: true
+  remote_user: ubuntu
+  become_method: ansible.builtin.sudo
+
+  tasks:
+    - name: Run add_xmrig script
+      ansible.builtin.script: scripts/add_xmrig.sh
+      args:
+        creates: /usr/local/bin/xmrig
