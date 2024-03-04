@@ -1,0 +1,10 @@
+---
+- name: Transfer and install p2pool.
+  hosts: monero
+  become: true
+  remote_user: ubuntu
+  become_method: ansible.builtin.sudo
+
+  tasks:
+    - name: Run make_monero script
+      ansible.builtin.script: scripts/add_p2pool.sh

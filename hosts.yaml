@@ -19,6 +19,7 @@ monero:
     hippy01.willow.net:
     hippy02.willow.net:
     lenny.willow.net:
+    puck.willow.net:
 
 x86:
   hosts:

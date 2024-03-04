@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 # Create a system user and group to run monerod
 sudo addgroup --system monero
 sudo adduser --system --home /var/lib/monero --ingroup monero --disabled-login monero

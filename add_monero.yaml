@@ -1,0 +1,33 @@
+---
+- name: Transfer and install monerod.
+  hosts: monero
+  become: true
+  remote_user: ubuntu
+  become_method: ansible.builtin.sudo
+
+  tasks:
+    - name: Copy monerod systemd file
+      ansible.builtin.copy:
+        src: ./conf/monero.service
+        dest: /etc/systemd/system/monero.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./conf/monerod.conf
+        dest: /etc/monero/monerod.conf
+        owner: monero
+        group: monero
+        mode: '0644'
+
+    - name: Install bzip2
+      ansible.builtin.apt:
+        name: bzip2
+        state: present
+
+    - name: Run make_monero script
+      ansible.builtin.script: ./scripts/make_monero.sh
+      args:
+        creates: /var/log/monero

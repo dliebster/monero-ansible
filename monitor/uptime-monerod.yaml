@@ -16,7 +16,7 @@
     - name: Gather Disk Space
       ansible.builtin.shell: "df -h --output=pcent / | awk 'NR==2 {print $1}'"
       register: disk_space
-    - name: Gather logs
+    - name: Gather monerod logs
       ansible.builtin.shell: tail -5 /var/log/monero/monerod.log
       register: monero_logs
     - name: Usage Stats
