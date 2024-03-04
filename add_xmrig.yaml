@@ -10,3 +10,18 @@
       ansible.builtin.script: scripts/add_xmrig.sh
       args:
         creates: /usr/local/bin/xmrig
+
+    - name: Add systemd xmrig unit file
+      ansible.builtin.copy:
+        src: conf/xmrig.service
+        dest: /etc/systemd/system/xmrig.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable exmrig systemd
+      ansible.builtin.systemd:
+        name: xmrig
+        state: started
+        masked: false
+        enabled: true

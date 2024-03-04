@@ -8,4 +8,20 @@
   tasks:
     - name: Run make_monero script
       ansible.builtin.script: scripts/add_p2pool.sh
-      creates: /usr/local/bin/p2pool
+      args:
+        creates: /usr/local/bin/p2pool
+
+    - name: Add systemd xmrig unit file
+      ansible.builtin.copy:
+        src: conf/p2pool.service
+        dest: /etc/systemd/system/p2pool.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable p2pool systemd
+      ansible.builtin.systemd:
+        name: p2pool
+        state: started
+        masked: false
+        enabled: true

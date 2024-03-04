@@ -9,7 +9,7 @@ ExecStart  = /usr/local/bin/p2pool --host 127.0.0.1 --wallet 4B4LNifyYDGS5KDGJT8
 User       = monero
 Group      = monero
 Restart    = always
-RestartSec = 5
+RestartSec = 20
 
 [Install]
 WantedBy = multi-user.target
