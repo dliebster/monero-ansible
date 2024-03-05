@@ -99,10 +99,10 @@
         name: bzip2
         state: present
 
-    - name: Run make_monero script
+    - name: Run add_monero script
       ansible.builtin.script: ./scripts/add_monero.sh
       args:
-        creates: /usr/local/bin/monero
+        creates: /usr/local/bin/monerod
 
     - name: Systemctl daemon-reload
       ansible.builtin.systemd_service:
