@@ -27,3 +27,8 @@ ansible-playbook -i hosts.yaml monitor/uptime-monerod.yaml
 ansible-playbook -i hosts.yaml monitor/uptime-p2p.yaml
 ansible-playbook -i hosts.yaml monitor/uptime-xmrig.yaml
 ```
+
+## Reverse proxy
+
+conf/nginx_tcp_proxy.conf contains a tcp_stream proxy snippet, pls make sure the nginx tcp-streams module
+is installed (e.g. apt install -y nginx-extras )
