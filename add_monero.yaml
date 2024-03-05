@@ -6,6 +6,23 @@
   become_method: ansible.builtin.sudo
 
   tasks:
+    - name: Ensure group monero exists
+      ansible.builtin.group:
+        name: monero
+        state: present
+
+    - name: Create a login user
+      ansible.builtin.user:
+        name: monero
+        # password: 'CHANGEME'
+        groups:
+          - monero
+        state: present
+        shell: /bin/bash
+        system: true
+        createhome: true
+        home: /var/lib/monero
+
     - name: Copy monerod systemd file
       ansible.builtin.copy:
         src: ./conf/monero.service
@@ -14,13 +31,68 @@
         group: root
         mode: '0644'
 
-    - name: Copy file with owner and permissions
+    - name: Create etc-monero
+      ansible.builtin.file:
+        path: /etc/monero
+        state: directory
+        group: monero
+        owner: monero
+        mode: "0710"
+        recurse: true
+    #   when: not register_name.stat.exists
+
+    # - name: Check var-run-monero exists
+    #   ansible.builtin.stat:
+    #     path: /var/run/monero
+    #   register: register_name
+
+    - name: Create var-run-monero
+      ansible.builtin.file:
+        path: /var/run/monero
+        state: directory
+        group: monero
+        owner: monero
+        mode: "0644"
+        recurse: true
+    #   when: not register_name.stat.exists
+
+    # - name: Check var-log-monero exists
+    #   ansible.builtin.stat:
+    #     path: /var/log/monero
+    #   register: register_name
+
+    - name: Create var-log-monero
+      ansible.builtin.file:
+        path: /var/log/monero
+        state: directory
+        group: monero
+        owner: monero
+        mode: "0644"
+        recurse: true
+    #   when: not register_name.stat.exists
+
+    # - name: Check var-lib-monero exists
+    #   ansible.builtin.stat:
+    #     path:/var/lib/monero/.bitmonero
+    #   register: register_name
+
+    - name: Create var-lib-monero
+      ansible.builtin.file:
+        path: /var/lib/monero/.bitmonero
+        state: directory
+        group: monero
+        owner: monero
+        mode: "0744"
+        recurse: true
+
+    - name: Copy etc-monerod.conf
       ansible.builtin.copy:
         src: ./conf/monerod.conf
         dest: /etc/monero/monerod.conf
         owner: monero
         group: monero
-        mode: '0644'
+        mode: "0644"
+        force: true
 
     - name: Install bzip2
       ansible.builtin.apt:
@@ -30,4 +102,13 @@
     - name: Run make_monero script
       ansible.builtin.script: ./scripts/add_monero.sh
       args:
-        creates: /var/log/monero
+        creates: /usr/local/bin/monero
+
+    - name: Systemctl daemon-reload
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: Make sure monerod is running
+      ansible.builtin.systemd_service:
+        state: started
+        name: monero

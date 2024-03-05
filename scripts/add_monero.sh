@@ -1,23 +1,23 @@
 #! /usr/bin/env bash
 
 # Create a system user and group to run monerod
-sudo addgroup --system monero
-sudo adduser --system --home /var/lib/monero --ingroup monero --disabled-login monero
+# sudo addgroup --system monero
+# sudo adduser --system --home /var/lib/monero --ingroup monero --disabled-login monero
 
 # Create necessary directories for monerod
-sudo mkdir /var/run/monero
-sudo mkdir /var/log/monero
-sudo mkdir /etc/monero
-sudo mkdir -p /var/lib/monero/.bitmonero
+# sudo mkdir /var/run/monero
+# sudo mkdir /var/log/monero
+# sudo mkdir /etc/monero
+# sudo mkdir -p /var/lib/monero/.bitmonero
 
 # Create monerod config file
-sudo touch /etc/monero/monerod.conf
+# sudo touch /etc/monero/monerod.conf
 
 # Set permissions for new directories
-sudo chown monero:monero /var/run/monero
-sudo chown monero:monero /var/log/monero
-sudo chown -R monero:monero /etc/monero
-sudo chown -R monero:monero /var/lib/monero
+# sudo chown monero:monero /var/run/monero
+# sudo chown monero:monero /var/log/monero
+# sudo chown -R monero:monero /etc/monero
+# sudo chown -R monero:monero /var/lib/monero
 wget https://gist.githubusercontent.com/sethforprivacy/ad5848767d9319520a6905b7111dc021/raw/download_monero_binaries.sh
 chmod +x download_monero_binaries.sh
 
@@ -82,6 +82,6 @@ rm monero-linux-*.tar.bz2
 sudo cp -r monero-x86_64-linux-gnu-*/* /usr/local/bin/
 sudo chown -R monero:monero /usr/local/bin/monero*
 
-sudo cp monero.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable monero --now
+# sudo cp monero.service /etc/systemd/system/
+# sudo systemctl daemon-reload
+# sudo systemctl enable monero --now
