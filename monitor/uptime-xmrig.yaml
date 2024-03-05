@@ -42,6 +42,13 @@
       register: top
       changed_when: top.rc != 0
 
+    - name: Get H/s
+      ansible.builtin.shell:
+        cmd: set -o pipefail && grep "H/s" /var/log/syslog |tail -1
+        executable: /bin/bash
+      register: hashsecs
+      changed_when: hashsecs.rc != 0
+
     - name: Set CPU usage facts
       ansible.builtin.set_fact:
         user_cpu: "{{ top.stdout_lines[2].split()[1] }}"
@@ -57,3 +64,4 @@
           - "RAM Usage: {{ ram_usage.stdout }}%"
           - "Disk Space Used: {{ disk_space.stdout }}"
           - "Monero-log: {{ monero_logs.stdout }}"
+          - "H/s: {{ hashsecs.stdout }}"

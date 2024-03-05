@@ -10,6 +10,8 @@ User       = monero
 Group      = monero
 Restart    = always
 RestartSec = 20
+StandardOutput = file:/var/log/monero/p2pool.log
+StandardError = inherit
 
 [Install]
 WantedBy = multi-user.target
