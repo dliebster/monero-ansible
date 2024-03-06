@@ -1,13 +1,49 @@
 ---
-- name: Transfer and install monerod.
-  hosts: monero
-  become: true
-  remote_user: ubuntu
-  become_method: ansible.builtin.sudo
+- name: Make Monero
+  hosts: all
+  # gather_fats after python is found
+  gather_facts: false
+  vars:
+    ansible_bender:
+      base_image: 'docker.io/library/ubuntu:23.10'
+      buildah_from_extra_args: "--dns 8.8.8.8"
+      ansible_extra_args: "-v -c./ansible.cfg"
+      target_image:
+        name: "p2pool"
+        cmd: bash
+        entrypoint: 'nohup /entrypoint.sh &'
+        environment:
+          wallet_addr: '4B4b'
+
+      cache_tasks: true
+      layering: true
+      squash: true
+      verbose_layer_names: true
+
+      working_container:
+        entrypoint: 'nohup /entrypoint.sh &'
 
   tasks:
+    - name: Bootstrap a host without python3 installed
+      ansible.builtin.raw: '/usr/bin/apt-get update && /usr/bin/apt-get -y install python3'
+      args:
+        executable: /bin/bash
+
+    - name: Make sure python3 is installed
+      package:
+        name:
+          - python3
+        state: present
+
+    - name: Gather facts after Python runtime is available
+      setup:
+        gather_subset:
+          - '!all'
+          - '!<any valid subset>'
+          - facter
+
     - name: Ensure group monero exists
-      ansible.builtin.group:
+      group:
         name: monero
         state: present
 
@@ -22,14 +58,6 @@
         system: true
         createhome: true
         home: /var/lib/monero
-
-    - name: Copy monerod systemd file
-      ansible.builtin.copy:
-        src: ./conf/monero.service
-        dest: /etc/systemd/system/monero.service
-        owner: root
-        group: root
-        mode: '0644'
 
     - name: Create etc-monero
       ansible.builtin.file:
@@ -76,6 +104,15 @@
         mode: "0644"
         force: true
 
+    - name: Copy entrypoint.sh
+      ansible.builtin.copy:
+        src: .scripts/entrypoint.sh
+        dest: /entrypoint.sh
+        owner: monero
+        group: monero
+        mode: "0555"
+        force: true
+
     - name: Install bzip2
       ansible.builtin.apt:
         name: bzip2
@@ -86,11 +123,12 @@
       args:
         creates: /usr/local/bin/monerod
 
-    - name: Systemctl daemon-reload
-      ansible.builtin.systemd_service:
-        daemon_reload: true
+    - name: Run p2pool installer
+      ansible.builtin.script: scripts/add_p2pool.sh
+      args:
+        creates: /usr/local/bin/p2pool
 
-    - name: Make sure monerod is running
-      ansible.builtin.systemd_service:
-        state: started
-        name: monero
+    - name: Run add_xmrig installer
+      ansible.builtin.script: scripts/add_xmrig.sh
+      args:
+        creates: /usr/local/bin/xmrig
