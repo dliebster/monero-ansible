@@ -7,7 +7,7 @@
     ansible_bender:
       base_image: 'docker.io/library/ubuntu:23.10'
       buildah_from_extra_args: "--dns 8.8.8.8"
-      ansible_extra_args: "-v -c./ansible.cfg"
+      ansible_extra_args: "-vvv -c ./ansible.cfg"
       target_image:
         name: "p2pool"
         cmd: bash
@@ -24,15 +24,21 @@
         entrypoint: 'nohup /entrypoint.sh &'
 
   tasks:
+  # Installing python3 via raw and apt while I find the intermittent python3-not-found bug
     - name: Bootstrap a host without python3 installed
       ansible.builtin.raw: '/usr/bin/apt-get update && /usr/bin/apt-get -y install python3'
       args:
         executable: /bin/bash
 
-    - name: Make sure python3 is installed
+    - name: Make sure python3 gpg and wget are installed
       package:
         name:
           - python3
+          - wget
+          - gpg
+          - bzip2
+          - libdigest-sha-perl
+          - sudo
         state: present
 
     - name: Gather facts after Python runtime is available
@@ -106,29 +112,28 @@
 
     - name: Copy entrypoint.sh
       ansible.builtin.copy:
-        src: .scripts/entrypoint.sh
+        src: ./scripts/entrypoint.sh
         dest: /entrypoint.sh
         owner: monero
         group: monero
         mode: "0555"
         force: true
-
-    - name: Install bzip2
-      ansible.builtin.apt:
-        name: bzip2
-        state: present
+    - name: Show permissions
+      ansible.builtin.raw: 'ls -all && id'
+      args:
+        executable: /bin/bash
 
     - name: Run add_monero script
-      ansible.builtin.script: ./scripts/add_monero.sh
+      ansible.builtin.script: ./scripts/add_monero_docker.sh
       args:
         creates: /usr/local/bin/monerod
 
     - name: Run p2pool installer
-      ansible.builtin.script: scripts/add_p2pool.sh
+      ansible.builtin.script: scripts/add_p2pool_docker.sh
       args:
         creates: /usr/local/bin/p2pool
 
     - name: Run add_xmrig installer
-      ansible.builtin.script: scripts/add_xmrig.sh
+      ansible.builtin.script: scripts/add_xmrig_docker.sh
       args:
         creates: /usr/local/bin/xmrig

@@ -34,3 +34,16 @@ ansible-playbook -i hosts.yaml monitor/uptime-xmrig.yaml
 Conf/nginx_tcp_proxy.conf contains a tcp_stream proxy snippet, pls make sure the nginx tcp-streams module
 is installed (e.g. apt install -y nginx-extras). 
 Once nginx is running, remeber to configure your NAT / forwarding gateway to forward all its inbound port 18080 connections to the nginx host, port 19080.
+
+## Docker image
+
+Located in the docker diretory, it does build but needs runing container testing.
+
+## SW Versions
+
+```shell
+ansible core 2.14.9
+podman version 4.3.1
+buildah version 1.28.2 
+Ubuntu  version 23.10
+```
