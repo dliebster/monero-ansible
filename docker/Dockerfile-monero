@@ -1,0 +1,29 @@
+FROM ubuntu:22.04 as build
+
+LABEL maintainer="Dan Liebster"
+
+WORKDIR /usr/src/app
+
+COPY * ./
+
+ENV DEBIAN_FRONTEND=noninteractive
+# ENV ANSIBLE_VERSION=2.16.4
+
+# RUN apt-get update && apt-get install -y \
+RUN apt-get update 
+RUN apt-get -y install python3-pip  
+
+# Configure udev for docker integration
+#RUN dpkg-divert --local --rename --add /sbin/udevadm && ln -s /bin/true /sbin/udevadm
+# RUN pip3 install --upgrade pip; \
+RUN pip3 install ansible
+
+RUN ls /usr/src/app
+RUN ls /
+
+RUN mkdir /etc/ansible
+RUN echo "[local]\nlocalhost ansible_connection=local" >> /etc/ansible/hosts
+RUN ls /usr/src/app
+RUN ansible-playbook -vvvv -i hosts.yaml --list-hosts --list-tasks ./add_monero.yaml 
+
+ENTRYPOINT ["sleep", "1000"]

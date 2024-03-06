@@ -1,0 +1,3 @@
+# Work in Progress
+
+Plan is to reuse ansible playbooks, figuring out packer vs ansible-bender atm...

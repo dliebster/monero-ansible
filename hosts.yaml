@@ -30,3 +30,7 @@ x86:
     lenny:
     puck:
     j1:
+
+localhost:
+  hosts:
+    127.0.0.1:
