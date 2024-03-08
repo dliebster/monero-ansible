@@ -20,7 +20,7 @@
         mode: '0644'
         force: true
 
-    - name: Systemctl daemon-reload
+    - name: Systemctl daemon-reload p2pool
       ansible.builtin.systemd_service:
         daemon_reload: true
 

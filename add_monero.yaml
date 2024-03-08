@@ -87,7 +87,7 @@
       args:
         creates: /usr/local/bin/monerod
 
-    - name: Systemctl daemon-reload
+    - name: Systemctl daemon-reload monero
       ansible.builtin.systemd_service:
         daemon_reload: true
 

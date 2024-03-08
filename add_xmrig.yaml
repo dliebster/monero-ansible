@@ -20,11 +20,11 @@
         mode: '0644'
         force: true
 
-    - name: Systemctl daemon-reload
+    - name: Systemctl daemon-reload xmrig
       ansible.builtin.systemd_service:
         daemon_reload: true
 
-    - name: Enable exmrig systemd
+    - name: Enable xmrig systemd
       ansible.builtin.systemd:
         name: xmrig
         state: restarted
