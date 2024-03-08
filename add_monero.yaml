@@ -30,6 +30,7 @@
         owner: root
         group: root
         mode: '0644'
+        force: true
 
     - name: Create etc-monero
       ansible.builtin.file:
@@ -86,11 +87,12 @@
       args:
         creates: /usr/local/bin/monerod
 
-    - name: Systemctl daemon-reload
+    - name: Systemctl daemon-reload monero
       ansible.builtin.systemd_service:
         daemon_reload: true
 
     - name: Make sure monerod is running
       ansible.builtin.systemd_service:
-        state: started
+        state: restarted
+        daemon_reload: true
         name: monero

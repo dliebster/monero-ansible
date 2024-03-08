@@ -1,0 +1,12 @@
+---
+- name: Transfer and install p2pool.
+  hosts: monero
+  become: true
+  remote_user: ubuntu
+  become_method: ansible.builtin.sudo
+
+  tasks:
+    - name: Set the timezone
+      ansible.builtin.timezone:
+        name: America/New_York
+        

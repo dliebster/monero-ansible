@@ -8,6 +8,7 @@ After=network.target
 
 Type=forking
 PIDFile=/var/run/monero/monerod.pid
+WorkingDirectory=/var/lib/monero
 ExecStart=/usr/local/bin/monerod --config-file=/etc/monero/monerod.conf --pidfile /var/run/monero/monerod.pid --detach
 Restart=on-failure
 RestartSec=30
