@@ -15,6 +15,8 @@ ansible-playbook -i hosts.yaml add_monero.yaml
 ansible-playbook -i hosts.yaml add_p2p.yaml
 ```
 
+Note: wallet id is preently set in conf/p2pool.service, to be emplated out in a future commit...
+
 ## Install xmrig -> work in progress
 
 ```bash

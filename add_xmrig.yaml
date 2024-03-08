@@ -18,11 +18,16 @@
         owner: root
         group: root
         mode: '0644'
+        force: true
+
+    - name: Systemctl daemon-reload
+      ansible.builtin.systemd_service:
+        daemon_reload: true
 
     - name: Enable exmrig systemd
       ansible.builtin.systemd:
         name: xmrig
-        state: started
+        state: restarted
         daemon_reload: true
         masked: false
         enabled: true

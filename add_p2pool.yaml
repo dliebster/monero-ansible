@@ -6,23 +6,28 @@
   become_method: ansible.builtin.sudo
 
   tasks:
-    - name: Run make_monero script
+    - name: Run add_p2pool.sh script
       ansible.builtin.script: scripts/add_p2pool.sh
       args:
         creates: /usr/local/bin/p2pool
 
-    - name: Add systemd xmrig unit file
+    - name: Add systemd p2pool unit file
       ansible.builtin.copy:
         src: conf/p2pool.service
         dest: /etc/systemd/system/p2pool.service
         owner: root
         group: root
         mode: '0644'
+        force: true
+
+    - name: Systemctl daemon-reload
+      ansible.builtin.systemd_service:
+        daemon_reload: true
 
     - name: Enable p2pool systemd
       ansible.builtin.systemd:
         name: p2pool
-        state: started
+        state: restarted
         daemon_reload: true
         masked: false
         enabled: true
