@@ -23,5 +23,6 @@
       ansible.builtin.systemd:
         name: p2pool
         state: started
+        daemon_reload: true
         masked: false
         enabled: true

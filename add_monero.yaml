@@ -93,4 +93,5 @@
     - name: Make sure monerod is running
       ansible.builtin.systemd_service:
         state: started
+        daemon_reload: true
         name: monero
