@@ -14,13 +14,7 @@ arm64:
 
 monero:
   hosts:
-    j1:
-    hippy:
-    hippy01:
-    hippy02:
-    lenny:
-    puck:
-    e455:
+    t490s:
 
 x86:
   hosts:

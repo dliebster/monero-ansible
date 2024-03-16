@@ -2,11 +2,12 @@
 [Unit]
 Description = xmrig
 After       = network.target
+After       = p2pool.service
 
 [Service]
 Type       = simple
 WorkingDirectory = /var/lib/monero
-ExecStart  = /usr/local/bin/xmrig -o 127.0.0.1:3333
+ExecStart  = /usr/local/bin/xmrig -o 127.0.0.1:3333 --randomx-1gb-pages --log-file=/var/log/monero/xmrig.log
 User       = monero
 Group      = monero
 Restart    = always

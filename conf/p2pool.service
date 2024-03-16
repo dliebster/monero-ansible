@@ -2,6 +2,7 @@
 [Unit]
 Description = p2pool
 After       = network.target
+After       = monero.service
 
 [Service]
 Type       = simple
